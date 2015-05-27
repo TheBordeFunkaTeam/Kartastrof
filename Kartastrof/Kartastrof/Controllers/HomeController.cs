@@ -13,7 +13,7 @@ namespace Kartastrof.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Play()
         {
             ViewBag.Message = "Your application description page.";
 
