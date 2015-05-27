@@ -1,0 +1,42 @@
+﻿@model Kartastrof.Models.Tbl_Capital
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tbl_Capital</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ca_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ca_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ca_Longitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ca_Longitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ca_Latitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ca_Latitude)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Ca_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
