@@ -14,11 +14,14 @@ namespace Kartastrof.Classes
     }
 
     public class FileReader   {
+        private string file;
+
         public FileReader()
         {
-
         }
 
-
+        public void ReadFile(string file)    {
+             this.file = file;
+        }
     }
 }

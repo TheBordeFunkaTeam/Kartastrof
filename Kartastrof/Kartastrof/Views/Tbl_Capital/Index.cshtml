@@ -5,6 +5,11 @@
 }
 
 <h2>Index</h2>
+<h3>Fyll databas från fil (ange filens sökväg)</h3>
+@using (Html.BeginForm("FillDatabase", "Tbl_Capital")) { 
+<input id="Text1" type="text" name="fileDest"/>
+<input id="Submit1" type="submit" value="Fyll databas" name="fileDest" />
+}
 
 <p>
     @Html.ActionLink("Create New", "Create")

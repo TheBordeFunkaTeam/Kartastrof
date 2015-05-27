@@ -184,9 +184,10 @@
     <Compile Include="Models\Tbl_Capital.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Views\Home\Tbl_CapitalController.cs" />
+    <Compile Include="Controllers\Tbl_CapitalController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Capitals.txt" />
     <Content Include="App_Data\Database.mdf" />
     <Content Include="App_Data\Database_log.ldf">
       <DependentUpon>Database.mdf</DependentUpon>
