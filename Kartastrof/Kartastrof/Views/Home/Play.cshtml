@@ -14,11 +14,7 @@
     </div>
 </div>
 
-<div class="row">
-
-    <div class="col-md-12">
-
-        <style type="text/css">
+<style type="text/css">
             #map-canvas {
                 height: 400px;
                 width:600px;
@@ -29,24 +25,183 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWfYmXiTeQmVSIsx1mNapkZHJAYvQ-eFI">
         </script>
         <script type="text/javascript">
+
+            var stockholm = new google.maps.LatLng(59.32522, 18.07002);
+            var parliament = new google.maps.LatLng(59.327383, 18.06747);
+            var marker;
+            var map;
+
+            var chicago = new google.maps.LatLng(41.85, -87.65);
+
+       
+            function CenterControl(controlDiv, map) {
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.className="mapButton";
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Klicka för att hitta kartnålen';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = "<span class='glyphicon glyphicon-map-marker'></span> Hitta kartnål";
+                controlUI.appendChild(controlText);
+
+                // Setup the click event listeners: simply set the map to
+                // Chicago
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    var currentPos = new google.maps.LatLng(getLat(), getLng());
+
+                    map.setCenter(currentPos)
+                   // toggleBounce()
+                });
+
+            }
+
+            function GuessButton(controlDiv, map) {
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.className = "mapButton";
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.style.marginLeft = '10px';
+                //controlUI.style.fontWeight = ''
+                controlUI.title = 'Klicka för att gissa';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = "<span class='glyphicon glyphicon-hand-right'></span> Gissa!";
+                controlUI.appendChild(controlText);
+
+                // Setup the click event listeners: simply set the map to
+                // Chicago
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    var lat = getLat();
+                    var lng = getLng();
+                    $.ajax({
+                        type: "POST",
+                        url: "Submit",
+                        data: {lat: lat, lng: lng},
+                        success: function (response) {
+                            alert(response)
+                        },
+                        //dataType: dataType
+                    });
+                });
+
+            }
+
             function initialize() {
                 var mapOptions = {
-                    center: { lat: -34.397, lng: 150.644 },
-                    zoom: 8
+                    center: stockholm,
+                    zoom: 3
                 };
                 var map = new google.maps.Map(document.getElementById('map-canvas'),
                     mapOptions);
+
+                // Create the DIV to hold the control and
+                // call the CenterControl() constructor passing
+                // in this DIV.
+                var centerControlDiv = document.createElement('div');
+                var centerControl = new CenterControl(centerControlDiv, map);
+
+                centerControlDiv.index = 1;
+                map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(centerControlDiv);
+
+                // Create the DIV to hold the control and
+                // call the CenterControl() constructor passing
+                // in this DIV.
+                var guessButtonDiv = document.createElement('div');
+                var guessButton = new GuessButton(guessButtonDiv, map);
+
+                guessButtonDiv.index = 1;
+                map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(guessButtonDiv);
+            
+                var currentPos = new google.maps.LatLng(59.327383, 18.06747);
+
+            marker = new google.maps.Marker({
+                map:map,
+                draggable:true,
+                animation: google.maps.Animation.DROP,
+                position: currentPos
+            });
+
+            google.maps.event.addListener(marker, 'click', toggleBounce);
+            google.maps.event.addListener(marker, 'click', getCoordinates);
+
+
             }
+
+            function toggleBounce() {
+
+                if (marker.getAnimation() != null) {
+                    marker.setAnimation(null);
+                } else {
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+
+            function getCoordinates() {
+                var lat = marker.getPosition().lat();
+                var lng = marker.getPosition().lng();
+                alert("Latitude: " + lat + "Longitude" + lng);
+            }
+
+            function getLat() {
+                return marker.getPosition().lat();
+            }
+
+            function getLng() {
+                return marker.getPosition().lng();
+            }
+
             google.maps.event.addDomListener(window, 'load', initialize);
 
+
         </script>
-    </div>
-</div>
 
 <style>
     #infoContainer {
         border-right: solid;
         border-width: 1px;
         height: 500px;
+    }
+    .glyphicon-map-marker{
+        color:#FE7569;
+    }
+
+    .glyphicon-hand-right{
+        color: orange;
+    }
+
+    .mapButton:hover{
+        background-color: #E6E6E6 !important;
+        border-color: #E6E6E6 !important;
     }
 </style>

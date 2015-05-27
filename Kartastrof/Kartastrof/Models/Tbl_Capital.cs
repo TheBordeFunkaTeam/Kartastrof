@@ -14,8 +14,8 @@ namespace Kartastrof.Models
 
         public string Ca_Name { get; set; }
 
-        public int? Ca_Longitude { get; set; }
+        public float? Ca_Longitude { get; set; }
 
-        public int? Ca_Latitude { get; set; }
+        public float? Ca_Latitude { get; set; }
     }
 }
