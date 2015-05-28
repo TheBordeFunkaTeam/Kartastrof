@@ -201,6 +201,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Capital.cs" />
+    <Compile Include="Models\CapitalInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Tbl_Capital.cs" />
@@ -274,6 +275,7 @@
     <Content Include="Views\Tbl_Capital\Details.cshtml" />
     <Content Include="Views\Tbl_Capital\Edit.cshtml" />
     <Content Include="Views\Tbl_Capital\Index.cshtml" />
+    <Content Include="Views\Home\GetClue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201505280944017_InitialMigrations.resx">
