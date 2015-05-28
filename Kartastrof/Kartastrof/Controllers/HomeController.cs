@@ -84,7 +84,13 @@ namespace Kartastrof.Controllers
 
         public ActionResult GetClue()
         {
-            string url = "http://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&exsectionformat=plain&titles=Helsinki&format=json";
+
+            //For use in response
+            string capital = "Rio de Janeiro";
+            //For use in get request
+            string getCapital = capital.Replace(" ", "%20");
+
+            string url = "http://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&exsectionformat=plain&titles=" + getCapital + "&format=json";
 
             //Get info from subscribers
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -119,17 +125,40 @@ namespace Kartastrof.Controllers
                 //System.Diagnostics.Debug.WriteLine("SERIALIZERESPONE" + serializeResponse);
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-
                 CapitalInfo capInfo = serializer.Deserialize<CapitalInfo>(serializeResponse);
-                System.Diagnostics.Debug.WriteLine("OUT: " + capInfo.title + " EXTRACT " + capInfo.extract);
+
+                //Remove first part of extract (including translation to more languages and pronunciation), add new first part
+                string[] splitted = capInfo.extract.Split(new string[] { " is " }, 2, StringSplitOptions.None);
+                capInfo.extract = splitted[1];
+                capInfo.extract = capInfo.extract.Replace(capital, "________");
+                capInfo.extract = "______ is " + capInfo.extract;
+
+                //Split into stanzas, save to clues
+                string[] clues = Regex.Split(capInfo.extract, "\n\n\n");
+                int j = 0; 
+                foreach (string clueSplit in clues)
+                {
+                    //Delete double rowbreaks
+                    clues[j] = clueSplit.Replace("\n\n", "\n");
+
+                    capInfo.clues.Add(clues[j]);
+                    j++;
+                }
+
+                System.Diagnostics.Debug.WriteLine("CLUE: " + capInfo.clues[0]);
+                
+
+
 
             }
             catch
             {
 
-                System.Diagnostics.Debug.WriteLine("COULD NOT BE FOUND");
+                System.Diagnostics.Debug.WriteLine("GET REQUEST FOR CAPITAL FAILED");
 
             }
+
+
 
 
 
