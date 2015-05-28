@@ -56,7 +56,6 @@ C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Interne
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.csprojResolveAssemblyReference.cache
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.dll
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.pdb
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.Migrations.InitialMigrations.resources

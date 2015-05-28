@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kartastrof.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ namespace Kartastrof.Controllers
 {
     public class HomeController : Controller
     {
+        private Capital db = new Capital();
+
         public ActionResult Index()
         {
             return View();
@@ -15,9 +18,16 @@ namespace Kartastrof.Controllers
 
         public ActionResult Play()
         {
+
+            //Slumpa fram en stad
+            int count = db.Tbl_Capital.Count();
+            Random rnd = new Random();
+            int randomNr = rnd.Next(0, count);
+            Tbl_Capital correctAnswer = db.Tbl_Capital.Find(randomNr);
+
             ViewBag.Message = "Your application description page.";
 
-            return View();
+            return View(correctAnswer);
         }
 
         [HttpPost]

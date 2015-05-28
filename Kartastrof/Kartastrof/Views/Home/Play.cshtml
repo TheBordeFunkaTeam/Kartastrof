@@ -1,8 +1,13 @@
-﻿@{
+﻿@model Kartastrof.Models.Tbl_Capital
+@{
     ViewBag.Title = "Play";
 }
-
 <br />
+<p><strong>Rätt svar:</strong></p>
+<p>Huvudstad: @Model.Ca_Name</p>
+<p>Latitud: @Model.Ca_Latitude</p>
+<p>Longitud: @Model.Ca_Longitude</p>
+
 <br />
 <div class="row">
     <div class="col-md-5 text-center" id="infoContainer">
