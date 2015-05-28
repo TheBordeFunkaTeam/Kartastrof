@@ -9,13 +9,13 @@ namespace Kartastrof.Models
     public partial class Tbl_Capital
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Ca_Id { get; set; }
 
         public string Ca_Name { get; set; }
 
-        public float? Ca_Longitude { get; set; }
+        public decimal? Ca_Longitude { get; set; }
 
-        public float? Ca_Latitude { get; set; }
+        public decimal? Ca_Latitude { get; set; }
     }
 }

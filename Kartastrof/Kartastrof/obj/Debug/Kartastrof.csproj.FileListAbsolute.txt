@@ -59,3 +59,9 @@ C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Interne
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.csprojResolveAssemblyReference.cache
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.dll
 C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.pdb
+C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.Migrations.InitialMigrations.resources
+C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.csproj.GenerateResource.Cache
+C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.Migrations.InitialMigrations1.resources
+C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.Migrations.InitialMigrations2.resources
+C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.Migrations.InitialMigrations3.resources
+C:\Users\Karolina\Documents\Uni\År 3\VT -15\Applikationsutveckling för Internet\Projekt\Kartastrof\Kartastrof\Kartastrof\obj\Debug\Kartastrof.Migrations.InitialMigrations4.resources

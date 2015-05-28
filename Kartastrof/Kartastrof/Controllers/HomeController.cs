@@ -20,6 +20,13 @@ namespace Kartastrof.Controllers
             return View();
         }
 
+        [HttpPost]
+        public string Submit(string lat, string lng)
+        {
+            string answer = "Latitud: "+lat + " " +"Longitud: "+lng;
+            return answer;
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

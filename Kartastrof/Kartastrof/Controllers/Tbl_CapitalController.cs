@@ -7,6 +7,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kartastrof.Models;
+using Kartastrof.Classes;
+using Newtonsoft.Json;
+using System.IO;
+using System.Globalization;
 
 namespace Kartastrof.Views.Home
 {
@@ -127,22 +131,31 @@ namespace Kartastrof.Views.Home
         [HttpPost]
         public void FillDatabase(string fileDest)
         {
-            int counter = 0;
-            string line;
 
-            // Read the file and display it line by line.
-            System.IO.StreamReader file =
-               new System.IO.StreamReader(fileDest);
-            while ((line = file.ReadLine()) != null)
+            ReaderObjectList readerList = new ReaderObjectList();
+            ReaderObject readerObject = new ReaderObject();
+
+            using (StreamReader r = new StreamReader(fileDest))
             {
-                Console.WriteLine(line);
-                counter++;
+                string json = r.ReadToEnd();
+                readerList.ListWithReaderObjects = JsonConvert.DeserializeObject<List<ReaderObject>>(json);
+                r.Close();
             }
 
-            file.Close();
-
-            // Suspend the screen.
-            Console.ReadLine();
+            Tbl_Capital capitalObject;
+            
+            foreach (var capital in readerList.ListWithReaderObjects)
+            {
+                capitalObject = new Tbl_Capital();
+                capitalObject.Ca_Name = capital.CapitalName;
+                capitalObject.Ca_Latitude = decimal.Parse(capital.CapitalLatitude, CultureInfo.InvariantCulture);
+                capitalObject.Ca_Longitude = decimal.Parse(capital.CapitalLongitude, CultureInfo.InvariantCulture);
+                if (ModelState.IsValid)
+                {
+                db.Tbl_Capital.Add(capitalObject);
+                db.SaveChanges();
+                }
+            }
         }
     }
 }

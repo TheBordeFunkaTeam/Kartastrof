@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\ReaderObject.cs" />
     <Compile Include="Classes\DatabaseInit.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -177,6 +178,27 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505280944017_InitialMigrations.cs" />
+    <Compile Include="Migrations\201505280944017_InitialMigrations.Designer.cs">
+      <DependentUpon>201505280944017_InitialMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505281003488_InitialMigrations1.cs" />
+    <Compile Include="Migrations\201505281003488_InitialMigrations1.Designer.cs">
+      <DependentUpon>201505281003488_InitialMigrations1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505281014196_InitialMigrations2.cs" />
+    <Compile Include="Migrations\201505281014196_InitialMigrations2.Designer.cs">
+      <DependentUpon>201505281014196_InitialMigrations2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505281022479_InitialMigrations3.cs" />
+    <Compile Include="Migrations\201505281022479_InitialMigrations3.Designer.cs">
+      <DependentUpon>201505281022479_InitialMigrations3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505281042115_InitialMigrations4.cs" />
+    <Compile Include="Migrations\201505281042115_InitialMigrations4.Designer.cs">
+      <DependentUpon>201505281042115_InitialMigrations4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Capital.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -253,7 +275,23 @@
     <Content Include="Views\Tbl_Capital\Edit.cshtml" />
     <Content Include="Views\Tbl_Capital\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201505280944017_InitialMigrations.resx">
+      <DependentUpon>201505280944017_InitialMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505281003488_InitialMigrations1.resx">
+      <DependentUpon>201505281003488_InitialMigrations1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505281014196_InitialMigrations2.resx">
+      <DependentUpon>201505281014196_InitialMigrations2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505281022479_InitialMigrations3.resx">
+      <DependentUpon>201505281022479_InitialMigrations3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505281042115_InitialMigrations4.resx">
+      <DependentUpon>201505281042115_InitialMigrations4.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
