@@ -13,5 +13,9 @@ namespace Kartastrof.Models
         public string extract { get; set; }
 
         public ArrayList clues = new ArrayList();
+
+        public CapitalInfo()
+        {
+        }
     }
 }

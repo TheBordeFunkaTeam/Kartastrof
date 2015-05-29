@@ -177,7 +177,9 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 
-
+# SQL Server files
+#*.mdf
+#*.ldf
 
 # Business Intelligence projects
 *.rdl.data
@@ -203,5 +205,7 @@ Kartastrof/Kartastrof/App_Data/Database_log.ldf
 Kartastrof/Kartastrof/App_Data/Database.mdf
 Kartastrof/Kartastrof/App_Data/Database_log.ldf
 Kartastrof/Kartastrof/App_Data/Database.mdf
+Kartastrof/Kartastrof/App_Data/Database.mdf
+Kartastrof/Kartastrof/App_Data/Database_log.ldf
 Kartastrof/Kartastrof/App_Data/Database.mdf
 Kartastrof/Kartastrof/App_Data/Database_log.ldf

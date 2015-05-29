@@ -226,6 +226,8 @@
     <Content Include="Images2\KartastrofLogo.png" />
     <Content Include="Images2\KartastrofLogov2.png" />
     <Content Include="Images2\KartastrofLogov3.png" />
+    <Content Include="Images2\worldMap.jpg" />
+    <Content Include="Images2\worldMapv2.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

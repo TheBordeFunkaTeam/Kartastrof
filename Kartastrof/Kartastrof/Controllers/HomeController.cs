@@ -10,6 +10,7 @@ using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
+using System.Collections;
 
 namespace Kartastrof.Controllers
 {
@@ -24,7 +25,6 @@ namespace Kartastrof.Controllers
 
         public ActionResult Play()
         {
-
             //Slumpa fram en stad
             int count = db.Tbl_Capital.Count();
             Random rnd = new Random();
@@ -34,6 +34,11 @@ namespace Kartastrof.Controllers
             Session["longitude"] = correctAnswer.Ca_Longitude.ToString();
 
             ViewBag.Message = "Your application description page.";
+
+            //Initiate clues
+            InitializeClues(correctAnswer.Ca_Name);
+            //Keep track of clues
+            Session["numberOfClues"] = 0;
 
             return View(correctAnswer);
         }
@@ -82,11 +87,12 @@ namespace Kartastrof.Controllers
             return View();
         }
 
-        public ActionResult GetClue()
+
+        public void InitializeClues(string playCapital)
         {
 
             //For use in response
-            string capital = "Rio de Janeiro";
+            string capital = playCapital;
             //For use in get request
             string getCapital = capital.Replace(" ", "%20");
 
@@ -96,7 +102,6 @@ namespace Kartastrof.Controllers
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "text/json";
             httpWebRequest.Method = "GET";
-
 
             try
             {
@@ -122,7 +127,6 @@ namespace Kartastrof.Controllers
                 }
 
                 serializeResponse = serializeResponse.Remove(serializeResponse.Length - 3);
-                //System.Diagnostics.Debug.WriteLine("SERIALIZERESPONE" + serializeResponse);
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 CapitalInfo capInfo = serializer.Deserialize<CapitalInfo>(serializeResponse);
@@ -133,37 +137,43 @@ namespace Kartastrof.Controllers
                 capInfo.extract = capInfo.extract.Replace(capital, "________");
                 capInfo.extract = "______ is " + capInfo.extract;
 
+                capInfo.extract = capInfo.extract.Replace("\n\n\n", "\n");
+                capInfo.extract = capInfo.extract.Replace("\n\n", "\n");
+
                 //Split into stanzas, save to clues
-                string[] clues = Regex.Split(capInfo.extract, "\n\n\n");
-                int j = 0; 
+                string[] clues = Regex.Split(capInfo.extract, @"(?<=[\.!\?])\s+");
+                int j = 0;
                 foreach (string clueSplit in clues)
                 {
-                    //Delete double rowbreaks
-                    clues[j] = clueSplit.Replace("\n\n", "\n");
-
                     capInfo.clues.Add(clues[j]);
                     j++;
                 }
 
-                System.Diagnostics.Debug.WriteLine("CLUE: " + capInfo.clues[0]);
-                
 
+                foreach (string value in capInfo.clues)
+                {
+                    System.Diagnostics.Debug.WriteLine("CLUE: " + value);
+                }
 
+                Session["clues"] = capInfo.clues;
 
             }
             catch
             {
-
-                System.Diagnostics.Debug.WriteLine("GET REQUEST FOR CAPITAL FAILED");
-
+                System.Diagnostics.Debug.WriteLine("GET CAPITAL FAILED");
             }
 
+        }
 
+        [HttpPost]
+        public string GetClue(string test)
+        {
+            ArrayList clue = (ArrayList)Session["clues"];
+            int clueNr = (int)Session["numberOfClues"];
 
+            Session["numberOfClues"] = clueNr + 1;
 
-
-
-            return View();
+            return (string)clue[clueNr];
         }
     }
 }
