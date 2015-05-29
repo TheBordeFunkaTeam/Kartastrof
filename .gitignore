@@ -197,3 +197,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+Kartastrof/Kartastrof/App_Data/Database.mdf
+Kartastrof/Kartastrof/App_Data/Database_log.ldf
+Kartastrof/Kartastrof/App_Data/Database.mdf
+Kartastrof/Kartastrof/App_Data/Database.mdf
+Kartastrof/Kartastrof/App_Data/Database_log.ldf

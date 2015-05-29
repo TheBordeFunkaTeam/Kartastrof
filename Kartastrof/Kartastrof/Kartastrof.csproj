@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\CapitalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -203,6 +204,7 @@
     <Compile Include="Models\Capital.cs" />
     <Compile Include="Models\CapitalInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\KartastrofContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Tbl_Capital.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +223,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images2\KartastrofLogo.png" />
+    <Content Include="Images2\KartastrofLogov2.png" />
+    <Content Include="Images2\KartastrofLogov3.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
