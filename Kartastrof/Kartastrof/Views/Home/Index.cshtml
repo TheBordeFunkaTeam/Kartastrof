@@ -2,12 +2,29 @@
     ViewBag.Title = "Home Page";
 }
 
-
 <div class="row">
-    <div class="col-md-4 col-md-offset-4 text-center">
-        <h1>Kartastrof</h1>
+    <div class="col-md-6 col-md-offset-3 text-center">
+        <h1 class="title top-buffer-6"><img id="image2" src="../Images2\KartastrofLogov2.png" alt="Hej" /> Kartastrof</h1>
         <h2>Inledning: ...</h2>
         <h3>Spelregler: </h3>
         @Html.ActionLink("Spela!","Play", null, null, new { @class="btn btn-primary"})
     </div>    
 </div>
+
+<style>
+    #image2 {
+        width:100px;
+        height:100px;
+        margin-bottom:4%;
+
+    }
+    .top-buffer-6 {
+        padding-top:6%;
+    }
+    .title{
+        font-size: 80px;
+        margin-top: 5%;
+        font-family: 'Chewy', cursive;
+
+    }
+</style>
