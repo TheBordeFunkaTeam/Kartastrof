@@ -1,17 +1,48 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
 <div class="row">
-    <div class="col-md-6 col-md-offset-3 text-center">
-        <h1 class="title top-buffer-6"><img id="image2" src="../Images2\KartastrofLogov2.png" alt="Hej" /> Kartastrof</h1>
-        <h2>Inledning: ...</h2>
-        <h3>Spelregler: </h3>
-        @Html.ActionLink("Spela!","Play", null, null, new { @class="btn btn-primary"})
-    </div>    
+    <div class="col-md-12 text-left" id="content">
+        <div class="col-md-7 top-buffer-6" id="text">
+            <h1 class="title">Välkommen!</h1>
+            <h2>Här har du chansen att testa dina geografikunskaper!</h2>
+                <h3>Få ledtrådar om en huvudstad och pricka ut dess plats på kartan när du tror dig veta svaret! :D:D:D</h3>
+        </div>
+        <div class="col-md-7">
+            @Html.ActionLink("Spela!", "Play", null, null, new { @class = "btn btn-primary", id = "button" })
+        </div>
+</div>
 </div>
 
 <style>
+    .btn-primary{
+        background-color: #FB4F4F !important;
+        font-size: 20px !important;
+        border: none !important;
+        margin-top: 5% !important;
+    }
+    .title{
+        color: #FB4F4F !important;
+    }
+    #text{
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+    }
+    #button{
+        float: right;
+    }
+    #content{
+        background-image: url("../Images2/worldMapv2.png");
+        background-size: 85%;
+        height:500px;
+        color: white !important;
+        /*text-shadow: 2px 2px #000000;*/
+        
+    }
+    #worldMap{
+        width: 85%;
+        height: 85%;
+    }
     #image2 {
         width:100px;
         height:100px;
@@ -19,7 +50,7 @@
 
     }
     .top-buffer-6 {
-        padding-top:6%;
+        margin-top:6%;
     }
     .title{
         font-size: 80px;
