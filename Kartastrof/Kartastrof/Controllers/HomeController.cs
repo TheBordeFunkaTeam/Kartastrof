@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Collections;
 
+
 namespace Kartastrof.Controllers
 {
     public class HomeController : Controller
@@ -32,7 +33,7 @@ namespace Kartastrof.Controllers
             Tbl_Capital correctAnswer = db.Tbl_Capital.Find(randomNr);
             Session["latitude"] = correctAnswer.Ca_Latitude.ToString();
             Session["longitude"] = correctAnswer.Ca_Longitude.ToString();
-
+            Session["points"] = 100;
             ViewBag.Message = "Your application description page.";
 
             //Initiate clues
@@ -49,10 +50,10 @@ namespace Kartastrof.Controllers
             string answer = "Latitud: "+lat + " " +"Longitud: "+lng;
             
             if (isCorrectAnswer(lat, lng))
-            {
-                return "Grattis! Du gissade rätt! :D";
+            { 
+                return "true";
             } else{
-                return "Tyvärr! Du gissade fel! Prova igen!!!";
+                return "false";
             }
             //return answer;
         }
@@ -78,6 +79,22 @@ namespace Kartastrof.Controllers
 
 
             return isCorrect;
+        }
+
+        [HttpPost]
+        public string GetMessage()
+        {
+            int points = (int)Session["points"];
+            int level = GetLevel(points);
+            string summaryMessage = "Congratulations! Your answer is correct!\nYour level: "+level;
+            return summaryMessage;
+        }
+
+        public int GetLevel(int points)
+        {
+            double score = points / 10;
+            int level = (int)Math.Round(score);
+            return level;
         }
 
         public ActionResult Contact()
@@ -172,8 +189,18 @@ namespace Kartastrof.Controllers
             int clueNr = (int)Session["numberOfClues"];
 
             Session["numberOfClues"] = clueNr + 1;
-
             return (string)clue[clueNr];
+        }
+
+        [HttpPost]
+        public string ReducePoints()
+        {
+            //Reduce points
+            int currentPoints = (int)Session["points"];
+            int clueCost = 5;
+            int newPoints = currentPoints - clueCost;
+            Session["points"] = newPoints;
+            return newPoints.ToString();
         }
     }
 }
