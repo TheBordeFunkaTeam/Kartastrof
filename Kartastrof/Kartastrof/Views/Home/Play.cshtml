@@ -2,68 +2,124 @@
 @{
     ViewBag.Title = "Play";
 }
-<br />
-<p><strong>Rätt svar:</strong></p>
-<p>Huvudstad: @Model.Ca_Name</p>
-<p>Latitud: @Model.Ca_Latitude</p>
-<p>Longitud: @Model.Ca_Longitude</p>
 
-<br />
-<div class="row">
-   
-    <div class="col-md-12 text-center" id="mapContainer">
-        <h1>Karta</h1>
-        <div class="col-md-12 text-center" id="map-canvas"></div>
-    </div>
-</div>
+<div id="clue-container">
+    <button id="new-clue-button" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cutlery"></span>  Get wikisent</button>
 
-
-<div class="row">
-
-    <div class="col-md-5 text-center" id="infoContainer">
-        <h1>Ledtrådar</h1>
-
-        <div id="clueContWrapper">
-            <div id="clueCont">
-                <p>hej</p>
-            </div>
+    <div id="clue-cont-wrapper">
+        <div id="clue-cont">
+            <p>You can get a clue</p>
         </div>
-
-
-        <button id="newClueButton" type="button" class="btn btn-primary">Give me a clue</button>
-
-
     </div>
 
-    <div class="col-md-6 text-center" id="totalClues">
-        fdhdf
+    <button id="show-total-clue" type="button" class="btn btn-primary"></button>
+    <div id="total-clue-container">
     </div>
-
 </div>
 
+<div id="move-map-container">
+    <button id="move-map-btn" type="button" class="btn btn-primary"><span class="glyphicon glyphicon glyphicon-move"></span>  Use move</button>
+
+    <div id="move-map-cont-wrapper">
+        <div id="move-map-cont">
+            <p>Moves closer to targetdfg dfg df g sdfg d </p>
+        </div>
+    </div>
+</div>
+
+<div id="score-container">
+    <button id="score-btn" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-hand-right"></span>  Guess!</button>
+
+    <div id="score-cont-wrapper">
+        <div id="score-cont">
+            <p>Level:</p>
+            <p id="score-text">444</p>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+
+
+            <div id="map-wrapper" class="col-md-12">
+                <div id="map-canvas" class="col-md-12"></div>
+
+                <p><strong>Rätt svar:</strong></p>
+                <p>Huvudstad: @Model.Ca_Name</p>
+                <p>Latitud: @Model.Ca_Latitude</p>
+                <p>Longitud: @Model.Ca_Longitude</p>
+
+
+                @*<div id="clue-container" class="col-md-3">
+
+                    <button id="new-clue-button" type="button" class="btn btn-primary col-md-12">Give me a clue</button>
+
+                    <div id="clue-cont-wrapper" class="col-md-12">
+                        <div id="clue-cont">
+                            <p>hej</p>
+                        </div>
+                    </div>
+
+                </div>*@
 
 
 
-    <style type="text/css">
-        #map-canvas {
-            height: 400px;
-            width: 600px;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWfYmXiTeQmVSIsx1mNapkZHJAYvQ-eFI">
-    </script>
+
+            </div>
+        
+    </div>
+</div>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWfYmXiTeQmVSIsx1mNapkZHJAYvQ-eFI"></script>
+    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
     <script type="text/javascript">
 
+        $('#map-wrapper').css("height", (jQuery(window).height() - $('.navbar').height()) + "px");
 
-        $('#newClueButton').on('click', function (e) {
+        $('#new-clue-button').on('click', function (e) {
             $.ajax({
                 type: "POST",
                 url: "GetClue",
                 data: { test: "lat" },
                 success: function (response) {
-                    $('#clueCont').html(response);
+
+                    if (response.substring(0, 5) == "http:") {
+                        $('#clue-cont').html("<div id='pic-clue' class='pic-div'></div>");
+                        $('#total-clue-container').html("<div id='pic-total-clue' class='pic-div'></div>");
+                        $('.pic-div').css("background-image", "url(" + response + ")");
+                        $('#pic-clue').css("height", "400px");
+                        $('#pic-total-clue').css("height", "200px");
+
+
+                        $('<img/>').attr('src', response).load(function () {
+                            s = { w: this.width, h: this.height };
+                            //Landscape
+                            var prop;
+                            if (s.w > s.h) {
+                                prop = s.w / 400;
+                            }
+                            else {//Portrait
+                                prop = s.h / 400;
+                            }
+                            $('#pic-clue').css("background-size", (s.w / prop) + "px " + (s.h / prop) + "px");
+                            $('#pic-total-clue').css("background-size", (s.w / prop * 0.5) + "px " + (s.h / prop * 0.5) + "px");
+                            $('.pic-div').css("background-repeat", "no-repeat");
+                            $('.pic-div').css("background-position", "center");
+                            //compLogo.style.backgroundRepeat = "no-repeat";
+                            //compLogo.style.backgroundPosition = "center";
+
+
+                            });
+
+                       
+
+                        }
+                        else {
+                            $('#clue-cont').html(response);
+                            $('#total-clue-container').html($('#total-clue-container').html() + " " + response);
+                        }
+                    
                 },
             });
 
@@ -125,7 +181,7 @@
             controlUI.style.borderRadius = '3px';
             controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
             controlUI.style.cursor = 'pointer';
-            controlUI.style.marginBottom = '22px';
+            controlUI.style.marginBottom = '20px';
             controlUI.style.textAlign = 'center';
             controlUI.style.marginLeft = '10px';
             //controlUI.style.fontWeight = ''
@@ -140,7 +196,7 @@
             controlText.style.lineHeight = '38px';
             controlText.style.paddingLeft = '5px';
             controlText.style.paddingRight = '5px';
-            controlText.innerHTML = "<span class='glyphicon glyphicon-hand-right'></span> Gissa!";
+            controlText.innerHTML = "<span class='glyphicon glyphicon-hand-right glyph-orange'></span> Gissa!";
             controlUI.appendChild(controlText);
 
             // Setup the click event listeners: simply set the map to
@@ -197,9 +253,77 @@
                 position: currentPos
             });
 
-            google.maps.event.addListener(marker, 'click', toggleBounce);
-            google.maps.event.addListener(marker, 'click', getCoordinates);
+            //Clue container
+            var boxContent = document.getElementById('clue-container');
+            var ibOptions = {
+                content: boxContent
+                , boxStyle: {
+                }
+                , isHidden: false
+                , pixelOffset: new google.maps.Size(400, 0)
+            };
 
+            var ib = new InfoBox(ibOptions);
+            ib.open(map, marker);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                if (ib.getMap() == null) {
+                    ib.open(map, this);
+                } else {
+                    ib.close(map, this);
+                }
+            });
+            $('#total-clue-container').slideUp();
+            $('#show-total-clue').on('click', function (e) {
+                $('#total-clue-container').slideToggle();
+            });
+
+            //Move container
+            var boxContent2 = document.getElementById('move-map-container');
+            var ibOptions2 = {
+                content: boxContent2
+                , boxStyle: {
+                }
+                , isHidden: false
+                , pixelOffset: new google.maps.Size(190, 0)
+            };
+
+            var ib2 = new InfoBox(ibOptions2);
+            ib2.open(map, marker);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                if (ib2.getMap() == null) {
+                    ib2.open(map, this);
+                } else {
+                    ib2.close(map, this);
+                }
+            });
+
+            //Score container
+            var boxContent3 = document.getElementById('score-container');
+            var ibOptions3 = {
+                content: boxContent3
+                , boxStyle: {
+                }
+                , isHidden: false
+                , pixelOffset: new google.maps.Size(0, 0)
+            };
+
+            var ib3 = new InfoBox(ibOptions3);
+            ib3.open(map, marker);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                if (ib3.getMap() == null) {
+                    ib3.open(map, this);
+                } else {
+                    ib3.close(map, this);
+                }
+            });
+
+
+
+            google.maps.event.addListener(marker, 'click', toggleBounce);
+            //google.maps.event.addListener(marker, 'click', getCoordinates);
 
         }
 
@@ -232,17 +356,117 @@
     </script>
 
     <style>
-        #infoContainer {
-            border-right: solid;
-            border-width: 1px;
-            height: 500px;
+        body{
+            padding-bottom: 0px;
+        }
+        .container-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        #map-wrapper {
+            /*position: relative;*/
+            height: 600px;
+            padding: 0;
+        }
+
+        #map-canvas {
+            height: 100%;
+            
+        }
+        #clue-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 400px;
+            border-radius: 8px;
+        }
+        #clue-cont-wrapper {
+            width: 100%;
+            padding: 2%;
+            display: table;
+        }
+        #clue-cont {
+            color: white;
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        #total-clue-container {
+            width: 100%;
+            height: 220px;
+            padding: 3%;
+            color: white;
+            font-size: 1.5em;
+            overflow-y: scroll;
+        }
+        #show-total-clue{
+            height: 2px;
+            width: 100%;
+            border-radius: 0px;
+        }
+        #glyph-down{
+            font-size: 0.5em;
+            padding: 0;
+        } 
+        #move-map-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 200px;
+            border-radius: 8px;
+        }
+        #move-map-cont-wrapper {
+            width: 100%;
+            padding: 5%;
+            display: table;
+        }
+        #move-map-cont {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 1.5em;
+            color: white;
+            text-align: center;
+        }
+
+        #score-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 180px;
+            border-radius: 8px;
+        }
+        #score-cont-wrapper {
+            width: 100%;
+            padding: 5%;
+            display: table;
+        }
+        #score-cont {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 1.5em;
+            color: white;
+            text-align: center;
+        }
+        #score-text {
+            font-size: 1.5em;
+        } 
+        .infoBox img {
+            display: none;
+        } 
+        .btn-primary {
+            background-color: #FB4F4F !important;
+            font-size: 20px !important;
+            border: none !important;
+            margin-top: 5% !important;
+        }
+        #new-clue-button, #move-map-btn, #score-btn {
+            margin-top: 0% !important;
+            width: 100%;
         }
 
         .glyphicon-map-marker {
             color: #FE7569;
         }
 
-        .glyphicon-hand-right {
+        .glyph-orange {
             color: orange;
         }
 
@@ -250,33 +474,4 @@
             background-color: #E6E6E6 !important;
             border-color: #E6E6E6 !important;
         }
-
-        #clueCont {
-            color: white;
-            background-color: #FB4F4F;
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 1.5em;
-        }
-
-        #clueContWrapper {
-            height: 50%;
-            width: 100%;
-            padding: 2%;
-            display: table;
-            background-color: #FB4F4F;
-        }
-
-        .btn-primary {
-            background-color: #FB4F4F !important;
-            font-size: 20px !important;
-            border: none !important;
-            margin-top: 5% !important;
-        }
-
-        #totalClues{
-            background-color:aquamarine;
-            height: 50%;
-        }
-
     </style>

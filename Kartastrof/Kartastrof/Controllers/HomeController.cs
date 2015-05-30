@@ -18,6 +18,8 @@ namespace Kartastrof.Controllers
     {
         private Capital db = new Capital();
 
+        private int numClues = 0;
+
         public ActionResult Index()
         {
             return View();
@@ -90,14 +92,53 @@ namespace Kartastrof.Controllers
 
         public void InitializeClues(string playCapital)
         {
-
             //For use in response
             string capital = playCapital;
             //For use in get request
             string getCapital = capital.Replace(" ", "%20");
 
-            string url = "http://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&exsectionformat=plain&titles=" + getCapital + "&format=json";
 
+            //Picture
+            string picSrc = null;
+            string urlPic = "http://en.wikipedia.org/w/api.php?action=query&prop=pageimages&piprop=original&titles=" + getCapital + "&format=json";
+            //Get info from subscribers
+            var httpWebRequestPic = (HttpWebRequest)WebRequest.Create(urlPic);
+            httpWebRequestPic.ContentType = "text/json";
+            httpWebRequestPic.Method = "GET";
+
+            try
+            {
+                //Read response
+                var responsePic = "empty";
+                var httpResponsePic = (HttpWebResponse)httpWebRequestPic.GetResponse();
+                using (var streamReaderPic = new StreamReader(httpResponsePic.GetResponseStream()))
+                {
+                    responsePic = streamReaderPic.ReadToEnd();
+                    streamReaderPic.Close();
+                }
+
+                string[] linesPic = Regex.Split(responsePic, "{");
+                int i = 0;
+                foreach (string linePic in linesPic)
+                {
+                    if (i == 5)
+                    {
+                        picSrc = linePic;
+                        picSrc = picSrc.Substring(12);
+                        picSrc = picSrc.Remove(picSrc.Length - 6);
+                    }
+                    i++;
+                } 
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("GET CAPITAL PIC FAILED");
+            }
+
+
+
+            //Text
+            string url = "http://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&exsectionformat=plain&titles=" + getCapital + "&format=json";
             //Get info from subscribers
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "text/json";
@@ -130,6 +171,8 @@ namespace Kartastrof.Controllers
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 CapitalInfo capInfo = serializer.Deserialize<CapitalInfo>(serializeResponse);
+                //Add image as first clue
+                capInfo.clues.Add(picSrc);
 
                 //Remove first part of extract (including translation to more languages and pronunciation), add new first part
                 string[] splitted = capInfo.extract.Split(new string[] { " is " }, 2, StringSplitOptions.None);
@@ -150,10 +193,10 @@ namespace Kartastrof.Controllers
                 }
 
 
-                foreach (string value in capInfo.clues)
+                /*foreach (string value in capInfo.clues)
                 {
                     System.Diagnostics.Debug.WriteLine("CLUE: " + value);
-                }
+                }*/
 
                 Session["clues"] = capInfo.clues;
 
