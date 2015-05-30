@@ -3,23 +3,9 @@
     ViewBag.Title = "Play";
 }
 
-<br />
-<p><strong>Rätt svar:</strong></p>
-<p>Huvudstad: @Model.Ca_Name</p>
-<p>Latitud: @Model.Ca_Latitude</p>
-<p>Longitud: @Model.Ca_Longitude</p>
 
-<br />
 <audio id="successSound" src="../Sounds/success.mp3" preload="auto"></audio>
 <audio id="failSound" src="../Sounds/fail.mp3" preload="auto"></audio>
-
-   
-    <div class="col-md-12 text-center" id="mapContainer">
-        <div id="points">
-            <p>@Session["points"]</p>
-        </div>
-        <h1>Karta</h1>
-        <div class="col-md-12 text-center" id="map-canvas"></div>
 
 
 <div id="clue-container">
@@ -53,7 +39,7 @@
     <div id="score-cont-wrapper">
         <div id="score-cont">
             <p>Level:</p>
-            <p id="score-text">444</p>
+            <p id="score-text">100</p>
         </div>
     </div>
 </div>
@@ -83,11 +69,7 @@
 
                 </div>*@
 
-
-
-
             </div>
-        
     </div>
 </div>
 
@@ -97,48 +79,37 @@
 
         $('#map-wrapper').css("height", (jQuery(window).height() - $('.navbar').height()) + "px");
 
+            $('#new-clue-button').on('click', function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: "GetClue",
+                    data: { test: "lat" },
+                    success: function (response) {
 
-        $('#newClueButton').on('click', function (e) {
-        $.ajax({
-            type: "POST",
-            url: "GetClue",
-            data: { test: "lat" },
-            success: function (response) {
-                $('#clueCont').html(response);
-            },
-        });
-
-        $('#new-clue-button').on('click', function (e) {
-            $.ajax({
-                type: "POST",
-                url: "GetClue",
-                data: { test: "lat" },
-                success: function (response) {
-
-                    if (response.substring(0, 5) == "http:") {
-                        $('#clue-cont').html("<div id='pic-clue' class='pic-div'></div>");
-                        $('#total-clue-container').html("<div id='pic-total-clue' class='pic-div'></div>");
-                        $('.pic-div').css("background-image", "url(" + response + ")");
-                        $('#pic-clue').css("height", "400px");
-                        $('#pic-total-clue').css("height", "200px");
+                        if (response.substring(0, 5) == "http:") {
+                            $('#clue-cont').html("<div id='pic-clue' class='pic-div'></div>");
+                            $('#total-clue-container').html("<div id='pic-total-clue' class='pic-div'></div>");
+                            $('.pic-div').css("background-image", "url(" + response + ")");
+                            $('#pic-clue').css("height", "400px");
+                            $('#pic-total-clue').css("height", "200px");
 
 
-                        $('<img/>').attr('src', response).load(function () {
-                            s = { w: this.width, h: this.height };
-                            //Landscape
-                            var prop;
-                            if (s.w > s.h) {
-                                prop = s.w / 400;
-                            }
-                            else {//Portrait
-                                prop = s.h / 400;
-                            }
-                            $('#pic-clue').css("background-size", (s.w / prop) + "px " + (s.h / prop) + "px");
-                            $('#pic-total-clue').css("background-size", (s.w / prop * 0.5) + "px " + (s.h / prop * 0.5) + "px");
-                            $('.pic-div').css("background-repeat", "no-repeat");
-                            $('.pic-div').css("background-position", "center");
-                            //compLogo.style.backgroundRepeat = "no-repeat";
-                            //compLogo.style.backgroundPosition = "center";
+                            $('<img/>').attr('src', response).load(function () {
+                                s = { w: this.width, h: this.height };
+                                //Landscape
+                                var prop;
+                                if (s.w > s.h) {
+                                    prop = s.w / 400;
+                                }
+                                else {//Portrait
+                                    prop = s.h / 400;
+                                }
+                                $('#pic-clue').css("background-size", (s.w / prop) + "px " + (s.h / prop) + "px");
+                                $('#pic-total-clue').css("background-size", (s.w / prop * 0.5) + "px " + (s.h / prop * 0.5) + "px");
+                                $('.pic-div').css("background-repeat", "no-repeat");
+                                $('.pic-div').css("background-position", "center");
+                                //compLogo.style.backgroundRepeat = "no-repeat";
+                                //compLogo.style.backgroundPosition = "center";
 
 
                             });
@@ -151,242 +122,60 @@
                             $('#total-clue-container').html($('#total-clue-container').html() + " " + response);
                         }
                     
-                },
-            });
-
-
-        $.ajax({
-            type: "POST",
-            url: "ReducePoints",
-            success: function (response) {
-                $('#points').html(response);
-            },
-        });
-
-
-    });
-
-
-    var stockholm = new google.maps.LatLng(59.32522, 18.07002);
-    var marker;
-    var map;
-
-    function CenterControl(controlDiv, map) {
-
-        // Set CSS for the control border
-        var controlUI = document.createElement('div');
-        controlUI.className = "mapButton";
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '22px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Click to get the marker';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '38px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = "<span class='glyphicon glyphicon-map-marker'></span> Get marker";
-        controlUI.appendChild(controlText);
-
-        // Setup the click event listeners
-        google.maps.event.addDomListener(controlUI, 'click', function () {
-            //Center marker on current map view
-            marker.setPosition(map.getCenter());
-        });
-
-    }
-
-    /**************Center map on the right answer + add snabel-a before Model*************************************/
-    //var lat = "//Model.Ca_Latitude";
-    //var lng = "//Model.Ca_Longitude";
-    /*lat = lat.replace(/,/g, '.');
-    lng = lng.replace(/,/g, '.');
-    map.setCenter(new google.maps.LatLng(lat, lng));*/
-
-    function GuessButton(controlDiv, map) {
-
-        // Set CSS for the control border
-        var controlUI = document.createElement('div');
-        controlUI.className = "mapButton";
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '22px';
-        controlUI.style.textAlign = 'center';
-        controlUI.style.marginLeft = '10px';
-        controlUI.title = 'Click to make your guess';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '38px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = "<span class='glyphicon glyphicon-hand-right'></span> Guess!";
-        controlUI.appendChild(controlText);
-
-        // Setup the click event listeners
-        google.maps.event.addDomListener(controlUI, 'click', function () {
-            var lat = getLat();
-            var lng = getLng();
-
-            $.ajax({
-                type: "POST",
-                url: "Submit",
-                data: { lat: lat, lng: lng },
-                success: function (response) {
-                    if (response == "true") {
-                        $.ajax({
-                            type: "POST",
-                            url: "GetMessage",
-                            success: function (response) {
-                                document.getElementById('successSound').play();
-                                bootbox.dialog({
-                                    
-                                    message: response,
-                                    title: "Result",
-                                    onEscape: function () { },
-                                    show: true,
-                                    backdrop: true,
-                                    closeButton: true,
-                                    animate: true,
-                                    className: "my-modal",
-                                    buttons: {
-
-                                        // For each key inside the buttons object...
-
-                                        success: {
-                                            label: "Play again",
-                                            className: "btn-success",
-                                            callback: function () {
-                                                location.reload();
-                                            }
-                                        },
-
-                                        danger: {
-                                            label: "End game",
-                                            className: "btn-danger",
-                                            callback: function () {
-                                                //load home page?
-                                            }
-                                        },
-                                    }
-                                });
-                            }
-                        });
-
-                    } else {
-                        document.getElementById('failSound').play();
-
-                        bootbox.dialog({
-
-                            message: "Wrong answer!",
-                            title: "Result",
-                            onEscape: function () { },
-                            show: true,
-                            backdrop: true,
-                            closeButton: true,
-                            animate: true,
-                            className: "my-modal",
-                            buttons: {
-
-                                // For each key inside the buttons object...
-
-                                success: {
-                                    label: "Continue guessing",
-                                    className: "btn-success",
-                                    callback: function () {
-                                        
-                                    }
-                                },
-
-                                danger: {
-                                    label: "End game",
-                                    className: "btn-danger",
-                                    callback: function () {
-                                        //load home page?
-                                    }
-                                },
-                            }
-                        });
-                    }
-                    //successCallback(response);
-                }
-
-        function GuessButton(controlDiv, map) {
-
-            // Set CSS for the control border
-            var controlUI = document.createElement('div');
-            controlUI.className = "mapButton";
-            controlUI.style.backgroundColor = '#fff';
-            controlUI.style.border = '2px solid #fff';
-            controlUI.style.borderRadius = '3px';
-            controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-            controlUI.style.cursor = 'pointer';
-            controlUI.style.marginBottom = '20px';
-            controlUI.style.textAlign = 'center';
-            controlUI.style.marginLeft = '10px';
-            //controlUI.style.fontWeight = ''
-            controlUI.title = 'Klicka för att gissa';
-            controlDiv.appendChild(controlUI);
-
-            // Set CSS for the control interior
-            var controlText = document.createElement('div');
-            controlText.style.color = 'rgb(25,25,25)';
-            controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-            controlText.style.fontSize = '16px';
-            controlText.style.lineHeight = '38px';
-            controlText.style.paddingLeft = '5px';
-            controlText.style.paddingRight = '5px';
-            controlText.innerHTML = "<span class='glyphicon glyphicon-hand-right glyph-orange'></span> Gissa!";
-            controlUI.appendChild(controlText);
-
-            // Setup the click event listeners: simply set the map to
-            // Chicago
-            google.maps.event.addDomListener(controlUI, 'click', function () {
-                var lat = getLat();
-                var lng = getLng();
-                $.ajax({
-                    type: "POST",
-                    url: "Submit",
-                    data: { lat: lat, lng: lng },
-                    success: function (response) {
-                        alert(response)
                     },
-                    //dataType: dataType
                 });
 
+
+                $.ajax({
+                    type: "POST",
+                    url: "ReducePoints",
+                    success: function (response) {
+                        $('#score-text').html(response);
+                    },
+                });
+
+
             });
 
-          /*  function successCallback(response) {
-                alert(response);
-                if (response == "true") {
 
-                    bootbox.alert("Grattis! Du gissade rätt!");
-                } else {
-                    bootbox.alert("Tyvärr! Du gissade fel!");
-                }
-            }*/
+            var stockholm = new google.maps.LatLng(59.32522, 18.07002);
+            var marker;
+            var map;
 
-            
-        });
+            function CenterControl(controlDiv, map) {
 
-    }
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.className = "mapButton";
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Click to get the marker';
+                controlDiv.appendChild(controlUI);
 
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = "<span class='glyphicon glyphicon-map-marker'></span> Get marker";
+                controlUI.appendChild(controlText);
+
+                // Setup the click event listeners
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    //Center marker on current map view
+                    marker.setPosition(map.getCenter());
+                });
+
+            }
+         
     function initialize() {
 
         var mapOptions = {
@@ -410,12 +199,18 @@
         // call the CenterControl() constructor passing
         // in this DIV.
         var guessButtonDiv = document.createElement('div');
-        var guessButton = new GuessButton(guessButtonDiv, map);
 
         guessButtonDiv.index = 1;
         map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(guessButtonDiv);
 
         var currentPos = new google.maps.LatLng(59.327383, 18.06747);
+
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            position: currentPos
+        });
 
             //Clue container
             var boxContent = document.getElementById('clue-container');
@@ -436,7 +231,8 @@
                 } else {
                     ib.close(map, this);
                 }
-            });
+            }); 
+
             $('#total-clue-container').slideUp();
             $('#show-total-clue').on('click', function (e) {
                 $('#total-clue-container').slideToggle();
@@ -489,17 +285,109 @@
             google.maps.event.addListener(marker, 'click', toggleBounce);
             //google.maps.event.addListener(marker, 'click', getCoordinates);
 
+            $('#move-map-btn').on('click', function (e) {
+                var lat = "@Model.Ca_Latitude";
+                var lng = "@Model.Ca_Longitude";
+                lat = lat.replace(/,/g, '.');
+                lng = lng.replace(/,/g, '.');
+                map.setCenter(new google.maps.LatLng(lat, lng));
+            });
 
-        marker = new google.maps.Marker({
-            map: map,
-            draggable: true,
-            animation: google.maps.Animation.DROP,
-            position: currentPos
-        });
-
-        google.maps.event.addListener(marker, 'click', toggleBounce);
+        //google.maps.event.addListener(marker, 'click', toggleBounce);
         //google.maps.event.addListener(marker, 'click', getCoordinates);
     }
+
+ 
+
+    $('#score-btn').on('click', function (e) {
+        var lat = getLat();
+        var lng = getLng();
+
+        $.ajax({
+            type: "POST",
+            url: "Submit",
+            data: { lat: lat, lng: lng },
+            success: function (response) {
+                if (response == "true") {
+                    $.ajax({
+                        type: "POST",
+                        url: "GetMessage",
+                        success: function (response) {
+                            document.getElementById('successSound').play();
+                            bootbox.dialog({
+
+                                message: response,
+                                title: "Result",
+                                onEscape: function () { },
+                                show: true,
+                                backdrop: true,
+                                closeButton: true,
+                                animate: true,
+                                className: "my-modal",
+                                buttons: {
+
+                                    // For each key inside the buttons object...
+
+                                    success: {
+                                        label: "Play again",
+                                        className: "btn-success",
+                                        callback: function () {
+                                            location.reload();
+                                        }
+                                    },
+
+                                    danger: {
+                                        label: "End game",
+                                        className: "btn-danger",
+                                        callback: function () {
+                                            //load home page?
+                                        }
+                                    },
+                                }
+                            });
+                        }
+                    });
+
+                } else {
+                    document.getElementById('failSound').play();
+
+                    bootbox.dialog({
+
+                        message: "Wrong answer!",
+                        title: "Result",
+                        onEscape: function () { },
+                        show: true,
+                        backdrop: true,
+                        closeButton: true,
+                        animate: true,
+                        className: "my-modal",
+                        buttons: {
+
+                            // For each key inside the buttons object...
+
+                            success: {
+                                label: "Continue guessing",
+                                className: "btn-success",
+                                callback: function () {
+
+                                }
+                            },
+
+                            danger: {
+                                label: "End game",
+                                className: "btn-danger",
+                                callback: function () {
+                                    //load home page?
+                                }
+                            },
+                        }
+                    });
+                }
+            }
+
+        });
+    });
+    
 
     function toggleBounce() {
 
