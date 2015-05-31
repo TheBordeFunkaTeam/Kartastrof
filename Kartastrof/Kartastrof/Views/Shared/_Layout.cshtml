@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -24,8 +25,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Startsida", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Spela", "Play", "Home")</li>
+                    <li>@Html.ActionLink("Play", "Play", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

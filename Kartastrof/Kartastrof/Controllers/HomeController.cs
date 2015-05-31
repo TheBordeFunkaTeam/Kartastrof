@@ -35,6 +35,7 @@ namespace Kartastrof.Controllers
             Tbl_Capital correctAnswer = db.Tbl_Capital.Find(randomNr);
             Session["latitude"] = correctAnswer.Ca_Latitude.ToString();
             Session["longitude"] = correctAnswer.Ca_Longitude.ToString();
+            Session["capitalName"] = correctAnswer.Ca_Name.ToString(); 
             Session["points"] = 100;
             ViewBag.Message = "Your application description page.";
 
@@ -88,7 +89,7 @@ namespace Kartastrof.Controllers
         {
             int points = (int)Session["points"];
             int level = GetLevel(points);
-            string summaryMessage = "Congratulations! Your answer is correct!\nYour level: "+level;
+            string summaryMessage = "Congratulations! " + Session["capitalName"] + " is correct!</br>Your level:" + "  <span class='fa fa-diamond'></span> " + level;
             return summaryMessage;
         }
 

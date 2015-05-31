@@ -7,28 +7,28 @@
 <audio id="successSound" src="../Sounds/success.mp3" preload="auto"></audio>
 <audio id="failSound" src="../Sounds/fail.mp3" preload="auto"></audio>
 
-
+<div id="score-cost-fact" class="score-cost"><p><span class="fa fa-diamond"></span> 5</p></div>
 <div id="clue-container">
-    <button id="new-clue-button" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cutlery"></span>  Get wikisent</button>
-
+    <button id="new-clue-button" type="button" class="btn btn-primary"><span class="fa fa-stack-exchange"></span>  Get fact</button>
     <div id="clue-cont-wrapper">
         <div id="clue-cont">
-            <p>You can get a clue</p>
+            <p>This clue gives you some fact about the capital.</p>
         </div>
     </div>
 
-    <button id="show-total-clue" type="button" class="btn btn-primary"></button>
+    <button id="show-total-clue" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-down"></span></button>
     <div id="total-clue-container">
 
     </div>
 </div>
 
+<div id="score-cost-move" class="score-cost"><p><span class="fa fa-diamond"></span> 40</p></div>
 <div id="move-map-container">
-    <button id="move-map-btn" type="button" class="btn btn-primary"><span class="glyphicon glyphicon glyphicon-move"></span>  Use move</button>
+    <button id="move-map-btn" type="button" class="btn btn-primary"><span class="fa fa-arrows"></span>  Move</button>
 
     <div id="move-map-cont-wrapper">
         <div id="move-map-cont">
-            <p>Moves closer to targetdfg dfg df g sdfg d </p>
+            <p>This clue moves the map towards the right answer. Can only be used once.</p>
         </div>
     </div>
 </div>
@@ -38,7 +38,7 @@
 
     <div id="score-cont-wrapper">
         <div id="score-cont">
-            <p>Level:</p>
+            <span class="fa fa-diamond fa-2x"></span>
             <p id="score-text">100</p>
         </div>
     </div>
@@ -209,7 +209,8 @@
             map: map,
             draggable: true,
             animation: google.maps.Animation.DROP,
-            position: currentPos
+            position: currentPos,
+            icon: '../Images2/pin.png'
         });
 
             //Clue container
@@ -219,7 +220,7 @@
                 , boxStyle: {
                 }
                 , isHidden: false
-                , pixelOffset: new google.maps.Size(400, 0)
+                , pixelOffset: new google.maps.Size(330, 0)
             };
 
             var ib = new InfoBox(ibOptions);
@@ -231,11 +232,33 @@
                 } else {
                     ib.close(map, this);
                 }
-            }); 
+            });
+
+            //Score fact container 
+            var factScoreCont = document.getElementById('score-cost-fact');
+            var factScoreOptions = {
+                content: factScoreCont
+                , boxStyle: {
+                }
+                , isHidden: false
+                , pixelOffset: new google.maps.Size(680, -20)
+            };
+
+            var factScoreCont = new InfoBox(factScoreOptions);
+            factScoreCont.open(map, marker);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                if (factScoreCont.getMap() == null) {
+                    factScoreCont.open(map, this);
+                } else {
+                    factScoreCont.close(map, this);
+                }
+            });
 
             $('#total-clue-container').slideUp();
             $('#show-total-clue').on('click', function (e) {
                 $('#total-clue-container').slideToggle();
+                $(this).html() == '<span class="glyphicon glyphicon-chevron-up"></span>' ? $(this).html('<span class="glyphicon glyphicon-chevron-down"></span>') : $(this).html('<span class="glyphicon glyphicon-chevron-up"></span>');
             });
 
             //Move container
@@ -245,7 +268,7 @@
                 , boxStyle: {
                 }
                 , isHidden: false
-                , pixelOffset: new google.maps.Size(190, 0)
+                , pixelOffset: new google.maps.Size(120, 0)
             };
 
             var ib2 = new InfoBox(ibOptions2);
@@ -256,6 +279,27 @@
                     ib2.open(map, this);
                 } else {
                     ib2.close(map, this);
+                }
+            });
+
+            //Score move container
+            var scoreCont = document.getElementById('score-cost-move');
+            var scoreOptions = {
+                content: scoreCont
+                , boxStyle: {
+                }
+                , isHidden: false
+                , pixelOffset: new google.maps.Size(270, -20)
+            };
+
+            var scoreCont = new InfoBox(scoreOptions);
+            scoreCont.open(map, marker);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                if (scoreCont.getMap() == null) {
+                    scoreCont.open(map, this);
+                } else {
+                    scoreCont.close(map, this);
                 }
             });
 
@@ -444,15 +488,13 @@
         }
         #clue-cont-wrapper {
             width: 100%;
-            padding: 2%;
-            display: table;
+            padding: 0%;
         }
         #clue-cont {
             color: white;
-            display: table-cell;
-            vertical-align: middle;
             font-size: 1.5em;
             text-align: center;
+            padding-top: 5%;
         }
 
         #total-clue-container {
@@ -463,11 +505,13 @@
             font-size: 1.5em;
             overflow-y: scroll;
         }
-        #show-total-clue{
-            height: 2px;
+        #show-total-clue {
             width: 100%;
-            border-radius: 0px;
+            border-radius: 0px; 
+            padding: 0px;
+            font-size: 11px !important;
         }
+
         #glyph-down{
             font-size: 0.5em;
             padding: 0;
@@ -479,7 +523,7 @@
         }
         #move-map-cont-wrapper {
             width: 100%;
-            padding: 5%;
+            padding: 2%;
             display: table;
         }
         #move-map-cont {
@@ -488,27 +532,38 @@
             font-size: 1.5em;
             color: white;
             text-align: center;
+            padding-top: 5%;
         }
 
         #score-container {
             background-color: rgba(0, 0, 0, 0.8);
-            width: 180px;
+            width: 110px;
             border-radius: 8px;
         }
         #score-cont-wrapper {
             width: 100%;
-            padding: 5%;
-            display: table;
+            padding: 1%;
         }
         #score-cont {
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: white;
             text-align: center;
+            padding-top: 5%;
+            margin: 0px;
         }
         #score-text {
             font-size: 1.5em;
+            padding: 0%;
+        }
+        .score-cost {
+            width: 50px;
+            height: 20px;
+            padding: 1%;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px 8px 0px 0px;
+            font-size: 1.2em;
+            text-align: center;
         } 
         .infoBox img {
             display: none;
@@ -522,6 +577,9 @@
         #new-clue-button, #move-map-btn, #score-btn {
             margin-top: 0% !important;
             width: 100%;
+        }
+        #new-clue-button, #move-map-btn {
+            border-radius: 8px 0px 8px 8px;
         }
 
         .glyphicon-map-marker {
