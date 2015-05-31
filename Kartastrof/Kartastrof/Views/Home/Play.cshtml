@@ -38,7 +38,7 @@
 
     <div id="score-cont-wrapper">
         <div id="score-cont">
-            <p>Level:</p>
+            <p>Score</p>
             <p id="score-text">100</p>
         </div>
     </div>
@@ -129,6 +129,7 @@
                 $.ajax({
                     type: "POST",
                     url: "ReducePoints",
+                    data: {clueCost: "5"},
                     success: function (response) {
                         $('#score-text').html(response);
                     },
@@ -171,7 +172,13 @@
                 // Setup the click event listeners
                 google.maps.event.addDomListener(controlUI, 'click', function () {
                     //Center marker on current map view
-                    marker.setPosition(map.getCenter());
+                    var c = map.getCenter();
+                    var zoom = map.getZoom();
+                    var latChange = 106 * (Math.pow(0.52, zoom));
+                    var lngChange = -500 * (Math.pow(0.5, zoom));
+                    var newLat = parseFloat(c.lat()) + parseFloat(latChange);
+                    var newLng = parseFloat(c.lng()) + parseFloat(lngChange)
+                    marker.setPosition(new google.maps.LatLng(newLat, newLng));
                 });
 
             }
@@ -180,7 +187,7 @@
 
         var mapOptions = {
             center: stockholm,
-            zoom: 3,
+            zoom: 10,
             mapTypeControl: false
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -203,6 +210,7 @@
         guessButtonDiv.index = 1;
         map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(guessButtonDiv);
 
+   
         var currentPos = new google.maps.LatLng(59.327383, 18.06747);
 
         marker = new google.maps.Marker({
@@ -282,22 +290,50 @@
 
 
 
-            google.maps.event.addListener(marker, 'click', toggleBounce);
+           // google.maps.event.addListener(marker, 'click', toggleBounce);
             //google.maps.event.addListener(marker, 'click', getCoordinates);
 
             $('#move-map-btn').on('click', function (e) {
+
+                //Get correct answer
                 var lat = "@Model.Ca_Latitude";
                 var lng = "@Model.Ca_Longitude";
                 lat = lat.replace(/,/g, '.');
                 lng = lng.replace(/,/g, '.');
+
+                //Center map on correct answer
                 map.setCenter(new google.maps.LatLng(lat, lng));
+                map.setZoom(5);
+
+                //Change marker position
+                var c = map.getCenter();
+                var zoom = map.getZoom();
+                var latChange = 105 * (Math.pow(0.52, zoom));
+                var lngChange = -500 * (Math.pow(0.5, zoom));
+                var newLat = parseFloat(c.lat()) + parseFloat(latChange);
+                var newLng = parseFloat(c.lng()) + parseFloat(lngChange)
+                marker.setPosition(new google.maps.LatLng(newLat, newLng));
+
+                $(this).prop('disabled', true);
+                ib.close(map, this);
+                ib2.close(map, this);
+                ib3.close(map, this);
+
+                $.ajax({
+                    type: "POST",
+                    url: "ReducePoints",
+                    data: { clueCost: "40" },
+                    success: function (response) {
+                        $('#score-text').html(response);
+                    },
+                });
             });
 
         //google.maps.event.addListener(marker, 'click', toggleBounce);
         //google.maps.event.addListener(marker, 'click', getCoordinates);
     }
 
- 
+    
 
     $('#score-btn').on('click', function (e) {
         var lat = getLat();
