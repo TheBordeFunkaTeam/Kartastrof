@@ -177,7 +177,7 @@
                     //Center marker on current map view
                     var c = map.getCenter();
                     var zoom = map.getZoom();
-                    var latChange = 106 * (Math.pow(0.52, zoom));
+                    var latChange = 105 * (Math.pow(0.52, zoom));
                     var lngChange = -500 * (Math.pow(0.5, zoom));
                     var newLat = parseFloat(c.lat()) + parseFloat(latChange);
                     var newLng = parseFloat(c.lng()) + parseFloat(lngChange)
