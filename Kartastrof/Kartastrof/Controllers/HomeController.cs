@@ -88,16 +88,9 @@ namespace Kartastrof.Controllers
         public string GetMessage()
         {
             int points = (int)Session["points"];
-            int level = GetLevel(points);
-            string summaryMessage = "Congratulations! " + Session["capitalName"] + " is correct!</br>Your level:" + "  <span class='fa fa-diamond'></span> " + level;
-            return summaryMessage;
-        }
+            string summaryMessage = "Congratulations! " + Session["capitalName"] + " is correct!</br>Your level:" + "  <span class='fa fa-diamond'></span> " + points;
 
-        public int GetLevel(int points)
-        {
-            double score = points / 10;
-            int level = (int)Math.Round(score);
-            return level;
+            return summaryMessage;
         }
 
         public ActionResult Contact()
@@ -237,12 +230,12 @@ namespace Kartastrof.Controllers
         }
 
         [HttpPost]
-        public string ReducePoints()
+        public string ReducePoints(string clueCost)
         {
             //Reduce points
             int currentPoints = (int)Session["points"];
-            int clueCost = 5;
-            int newPoints = currentPoints - clueCost;
+            int cost = Int32.Parse(clueCost);
+            int newPoints = currentPoints - cost;
             Session["points"] = newPoints;
             return newPoints.ToString();
         }
