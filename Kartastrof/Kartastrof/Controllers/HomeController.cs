@@ -93,12 +93,6 @@ namespace Kartastrof.Controllers
             return summaryMessage;
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
 
 
         public void InitializeClues(string playCapital)
@@ -150,7 +144,6 @@ namespace Kartastrof.Controllers
 
             //Text
             string url = "http://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&exsectionformat=plain&titles=" + getCapital + "&format=json";
-            //Get info from subscribers
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "text/json";
             httpWebRequest.Method = "GET";
@@ -220,7 +213,7 @@ namespace Kartastrof.Controllers
         }
 
         [HttpPost]
-        public string GetClue(string test)
+        public string GetClue()
         {
             ArrayList clue = (ArrayList)Session["clues"];
             int clueNr = (int)Session["numberOfClues"];

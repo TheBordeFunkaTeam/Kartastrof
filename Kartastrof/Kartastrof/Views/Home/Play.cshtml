@@ -28,7 +28,7 @@
 
     <div id="move-map-cont-wrapper">
         <div id="move-map-cont">
-            <p>This clue moves the map towards the right answer. Can only be used once.</p>
+            <p>This clue moves the map towards the capital. Can only be used once.</p>
         </div>
     </div>
 </div>
@@ -81,7 +81,7 @@
                 $.ajax({
                     type: "POST",
                     url: "GetClue",
-                    data: { test: "lat" },
+                    data: {},
                     success: function (response) {
 
                         if (response.substring(0, 5) == "http:") {
