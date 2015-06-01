@@ -7,75 +7,79 @@
 <audio id="successSound" src="../Sounds/success.mp3" preload="auto"></audio>
 <audio id="failSound" src="../Sounds/fail.mp3" preload="auto"></audio>
 
-<div id="score-cost-fact" class="score-cost"><p><span class="fa fa-diamond"></span> 5</p></div>
-<div id="clue-container">
-    <button id="new-clue-button" type="button" class="btn btn-primary"><span class="fa fa-stack-exchange"></span>  Get fact</button>
-    <div id="clue-cont-wrapper">
-        <div id="clue-cont">
-            <p>This clue gives you some fact about the capital.</p>
+<div class="row" id="loading-mask"><div class="col-md-4 col-md-offset-4 text-center" style="padding-top: 15%;"><h3 id="loading-text">Loading map...</h3><img id="image-loader" src="../Images2/ajax-loader.gif" alt="Initializing map..." /></div></div>
+
+<div id="page-content" style="display: none;">
+
+    <div id="score-cost-fact" class="score-cost"><p><span class="fa fa-diamond"></span> 5</p></div>
+    <div id="clue-container">
+        <button id="new-clue-button" type="button" class="btn btn-primary"><span class="fa fa-stack-exchange"></span>  Get fact</button>
+        <div id="clue-cont-wrapper">
+            <div id="clue-cont">
+                <p>This clue gives you some fact about the capital.</p>
+            </div>
+        </div>
+
+        <button id="show-total-clue" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-down"></span></button>
+        <div id="total-clue-container">
+
         </div>
     </div>
 
-    <button id="show-total-clue" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-down"></span></button>
-    <div id="total-clue-container">
+    <div id="score-cost-move" class="score-cost"><p><span class="fa fa-diamond"></span> 40</p></div>
+    <div id="move-map-container">
+        <button id="move-map-btn" type="button" class="btn btn-primary"><span class="fa fa-arrows"></span>  Move</button>
 
-    </div>
-</div>
-
-<div id="score-cost-move" class="score-cost"><p><span class="fa fa-diamond"></span> 40</p></div>
-<div id="move-map-container">
-    <button id="move-map-btn" type="button" class="btn btn-primary"><span class="fa fa-arrows"></span>  Move</button>
-
-    <div id="move-map-cont-wrapper">
-        <div id="move-map-cont">
-            <p>This clue moves the map towards the right answer. Can only be used once.</p>
+        <div id="move-map-cont-wrapper">
+            <div id="move-map-cont">
+                <p>This clue moves the map towards the right answer. Can only be used once.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="score-container">
-    <button id="score-btn" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-hand-right"></span>  Guess!</button>
+    <div id="score-container">
+        <button id="score-btn" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-hand-right"></span>  Guess!</button>
 
-    <div id="score-cont-wrapper">
-        <div id="score-cont">
+        <div id="score-cont-wrapper">
+            <div id="score-cont">
 
-            <span class="fa fa-diamond fa-2x"></span>
+                <span class="fa fa-diamond fa-2x"></span>
 
 
-            <p id="score-text">100</p>
+                <p id="score-text">100</p>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid">
-    <div class="row">
+    <div class="container-fluid">
+        <div class="row">
 
 
             <div id="map-wrapper" class="col-md-12">
                 <div id="map-canvas" class="col-md-12"></div>
-
-                <p><strong>Rätt svar:</strong></p>
-                <p>Huvudstad: @Model.Ca_Name</p>
-                <p>Latitud: @Model.Ca_Latitude</p>
-                <p>Longitud: @Model.Ca_Longitude</p>
+                @*
+                    <p><strong>Rätt svar:</strong></p>
+                    <p>Huvudstad: @Model.Ca_Name</p>
+                    <p>Latitud: @Model.Ca_Latitude</p>
+                    <p>Longitud: @Model.Ca_Longitude</p>*@
 
 
                 @*<div id="clue-container" class="col-md-3">
 
-                    <button id="new-clue-button" type="button" class="btn btn-primary col-md-12">Give me a clue</button>
+                        <button id="new-clue-button" type="button" class="btn btn-primary col-md-12">Give me a clue</button>
 
-                    <div id="clue-cont-wrapper" class="col-md-12">
-                        <div id="clue-cont">
-                            <p>hej</p>
+                        <div id="clue-cont-wrapper" class="col-md-12">
+                            <div id="clue-cont">
+                                <p>hej</p>
+                            </div>
                         </div>
-                    </div>
 
-                </div>*@
+                    </div>*@
 
             </div>
+        </div>
     </div>
 </div>
-
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWfYmXiTeQmVSIsx1mNapkZHJAYvQ-eFI"></script>
     <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
     <script type="text/javascript">
@@ -213,14 +217,13 @@
         guessButtonDiv.index = 1;
         map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(guessButtonDiv);
 
-   
-        var currentPos = new google.maps.LatLng(59.327383, 18.06747);
+        var markerStartPos = new google.maps.LatLng(stockholm.lat() + 15, stockholm.lng()-80);
 
         marker = new google.maps.Marker({
             map: map,
             draggable: true,
             animation: google.maps.Animation.DROP,
-            position: currentPos,
+            position: markerStartPos,
             icon: '../Images2/pin.png'
         });
 
@@ -358,7 +361,7 @@
                 var latChange = 105 * (Math.pow(0.52, zoom));
                 var lngChange = -500 * (Math.pow(0.5, zoom));
                 var newLat = parseFloat(c.lat()) + parseFloat(latChange);
-                var newLng = parseFloat(c.lng()) + parseFloat(lngChange)
+                var newLng = parseFloat(c.lng()) + parseFloat(lngChange);
                 marker.setPosition(new google.maps.LatLng(newLat, newLng));
 
                 $(this).prop('disabled', true);
@@ -495,6 +498,17 @@
     google.maps.event.addDomListener(window, 'load', initialize);
 
 
+</script>
+
+<script language="javascript" type="text/javascript">
+    window.onload = function () {
+        //document.getElementById('loading-mask').style.display = 'none';
+        $('#loading-mask').delay(1100).fadeOut();
+
+        $('#page-content').fadeIn();
+
+
+    }
 </script>
 
     <style>
@@ -638,6 +652,19 @@
         .mapButton:hover {
             background-color: #E6E6E6 !important;
             border-color: #E6E6E6 !important;
+        }
+
+        #loading-mask {
+            background-color: lightsteelblue;
+            left: 0;
+            padding:0;
+            margin: 0 auto;
+            width:100%;
+            height:100%;
+            position:fixed;
+            top: 8%;
+            width: 100%;
+            z-index: 9999;
         }
 
     </style>
