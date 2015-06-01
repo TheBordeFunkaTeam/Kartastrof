@@ -32,7 +32,7 @@
 
         <div id="move-map-cont-wrapper">
             <div id="move-map-cont">
-                <p>This clue moves the map towards the right answer. Can only be used once.</p>
+                <p>This clue moves the map towards the capital. Can only be used once.</p>
             </div>
         </div>
     </div>
@@ -80,9 +80,9 @@
         </div>
     </div>
 </div>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWfYmXiTeQmVSIsx1mNapkZHJAYvQ-eFI"></script>
-    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWfYmXiTeQmVSIsx1mNapkZHJAYvQ-eFI"></script>
+<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+<script type="text/javascript">
 
         $('#map-wrapper').css("height", (jQuery(window).height() - $('.navbar').height()) + "px");
 
@@ -121,14 +121,14 @@
 
                             });
 
-                       
+
 
                         }
                         else {
                             $('#clue-cont').html(response);
                             $('#total-clue-container').html($('#total-clue-container').html() + " " + response);
                         }
-                    
+
                     },
                 });
 
@@ -189,7 +189,7 @@
                 });
 
             }
-         
+
     function initialize() {
 
         var mapOptions = {
@@ -248,7 +248,7 @@
                 }
             });
 
-            //Score fact container 
+            //Score fact container
             var factScoreCont = document.getElementById('score-cost-fact');
             var factScoreOptions = {
                 content: factScoreCont
@@ -380,7 +380,7 @@
         //google.maps.event.addListener(marker, 'click', getCoordinates);
     }
 
-    
+
 
     $('#score-btn').on('click', function (e) {
         var lat = getLat();
@@ -470,7 +470,7 @@
 
         });
     });
-    
+
 
     function toggleBounce() {
 
@@ -511,160 +511,175 @@
     }
 </script>
 
-    <style>
-        body{
-            padding-bottom: 0px;
-        }
-        .container-fluid {
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: auto;
-            margin-left: auto;
-        }
-        #map-wrapper {
-            /*position: relative;*/
-            height: 600px;
-            padding: 0;
-        }
+<style>
+    body {
+        padding-bottom: 0px;
+    }
 
-        #map-canvas {
-            height: 100%;
-            
-        }
-        #clue-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 400px;
-            border-radius: 8px;
-        }
-        #clue-cont-wrapper {
-            width: 100%;
-            padding: 0%;
-        }
-        #clue-cont {
-            color: white;
-            font-size: 1.5em;
-            text-align: center;
-            padding-top: 5%;
-        }
+    .container-fluid {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
 
-        #total-clue-container {
-            width: 100%;
-            height: 220px;
-            padding: 3%;
-            color: white;
-            font-size: 1.5em;
-            overflow-y: scroll;
-        }
-        #show-total-clue {
-            width: 100%;
-            border-radius: 0px; 
-            padding: 0px;
-            font-size: 11px !important;
-        }
+    #map-wrapper {
+        /*position: relative;*/
+        height: 600px;
+        padding: 0;
+    }
 
-        #glyph-down{
-            font-size: 0.5em;
-            padding: 0;
-        } 
-        #move-map-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 200px;
-            border-radius: 8px;
-        }
-        #move-map-cont-wrapper {
-            width: 100%;
-            padding: 2%;
-            display: table;
-        }
-        #move-map-cont {
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 1.5em;
-            color: white;
-            text-align: center;
-            padding-top: 5%;
-        }
+    #map-canvas {
+        height: 100%;
+    }
 
-        #score-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 110px;
-            border-radius: 8px;
-        }
-        #score-cont-wrapper {
-            width: 100%;
-            padding: 1%;
-        }
-        #score-cont {
-            font-size: 1.2em;
-            color: white;
-            text-align: center;
-            padding-top: 5%;
-            margin: 0px;
-        }
-        #score-text {
-            font-size: 1.5em;
-            padding: 0%;
-        }
-        .score-cost {
-            width: 50px;
-            height: 20px;
-            padding: 1%;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 8px 8px 0px 0px;
-            font-size: 1.2em;
-            text-align: center;
-        } 
-        .infoBox img {
-            display: none;
-        } 
-        .btn-primary {
-            background-color: #FB4F4F !important;
-            font-size: 20px !important;
-            border: none !important;
-            margin-top: 5% !important;
-        }
-        #new-clue-button, #move-map-btn, #score-btn {
-            margin-top: 0% !important;
-            width: 100%;
-        }
-        #new-clue-button, #move-map-btn {
-            border-radius: 8px 0px 8px 8px;
-        }
+    #clue-container {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 400px;
+        border-radius: 8px;
+    }
 
-        .glyphicon-map-marker {
-            color: #FE7569;
-        }
+    #clue-cont-wrapper {
+        width: 100%;
+        padding: 0%;
+    }
 
-        .glyph-orange {
-            color: orange;
-        }
+    #clue-cont {
+        color: white;
+        font-size: 1.5em;
+        text-align: center;
+        padding-top: 5%;
+    }
 
-        .bootbox-body {
-            font-size: 30px !important;
-        }
+    #total-clue-container {
+        width: 100%;
+        height: 220px;
+        padding: 3%;
+        color: white;
+        font-size: 1.5em;
+        overflow-y: scroll;
+    }
 
-        .modal-title    {
-            font-size: 25px !important;
-        }
+    #show-total-clue {
+        width: 100%;
+        border-radius: 0px;
+        padding: 0px;
+        font-size: 11px !important;
+    }
+
+    #glyph-down {
+        font-size: 0.5em;
+        padding: 0;
+    }
+
+    #move-map-container {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 200px;
+        border-radius: 8px;
+    }
+
+    #move-map-cont-wrapper {
+        width: 100%;
+        padding: 2%;
+        display: table;
+    }
+
+    #move-map-cont {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1.5em;
+        color: white;
+        text-align: center;
+        padding-top: 5%;
+    }
+
+    #score-container {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 110px;
+        border-radius: 8px;
+    }
+
+    #score-cont-wrapper {
+        width: 100%;
+        padding: 1%;
+    }
+
+    #score-cont {
+        font-size: 1.2em;
+        color: white;
+        text-align: center;
+        padding-top: 5%;
+        margin: 0px;
+    }
+
+    #score-text {
+        font-size: 1.5em;
+        padding: 0%;
+    }
+
+    .score-cost {
+        width: 50px;
+        height: 20px;
+        padding: 1%;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 8px 8px 0px 0px;
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .infoBox img {
+        display: none;
+    }
+
+    .btn-primary {
+        background-color: #FB4F4F !important;
+        font-size: 20px !important;
+        border: none !important;
+        margin-top: 5% !important;
+    }
+
+    #new-clue-button, #move-map-btn, #score-btn {
+        margin-top: 0% !important;
+        width: 100%;
+    }
+
+    #new-clue-button, #move-map-btn {
+        border-radius: 8px 0px 8px 8px;
+    }
+
+    .glyphicon-map-marker {
+        color: #FE7569;
+    }
+
+    .glyph-orange {
+        color: orange;
+    }
+
+    .bootbox-body {
+        font-size: 30px !important;
+    }
+
+    .modal-title {
+        font-size: 25px !important;
+    }
 
 
-        .mapButton:hover {
-            background-color: #E6E6E6 !important;
-            border-color: #E6E6E6 !important;
-        }
+    .mapButton:hover {
+        background-color: #E6E6E6 !important;
+        border-color: #E6E6E6 !important;
+    }
 
-        #loading-mask {
-            background-color: lightsteelblue;
-            left: 0;
-            padding:0;
-            margin: 0 auto;
-            width:100%;
-            height:100%;
-            position:fixed;
-            top: 8%;
-            width: 100%;
-            z-index: 9999;
-        }
-
-    </style>
+    #loading-mask {
+        background-color: lightsteelblue;
+        left: 0;
+        padding: 0;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 8%;
+        width: 100%;
+        z-index: 9999;
+    }
+</style>
