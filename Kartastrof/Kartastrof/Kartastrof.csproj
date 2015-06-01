@@ -223,6 +223,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images2\ajax-loader.gif" />
     <Content Include="Images2\KartastrofLogo.png" />
     <Content Include="Images2\KartastrofLogov2.png" />
     <Content Include="Images2\KartastrofLogov3.png" />
